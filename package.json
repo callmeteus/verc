@@ -1,8 +1,8 @@
 {
-  "name": "varc",
+  "name": "verc",
   "description": "Verdaccio automatic .rc file",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "1.0.100000001",
+  "main": "dist/index.js",
   "license": "MIT",
   "author": "Gio <gio@techtail.net>",
   "files": [
@@ -10,7 +10,7 @@
     "./bin"
   ],
   "bin": {
-    "nayr": "./bin/varc.js"
+    "nayr": "./bin/verc.js"
   },
   "scripts": {
     "start": "node dist/index.js",

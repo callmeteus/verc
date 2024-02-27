@@ -13,9 +13,9 @@ export class App {
     public static readonly NPMRCLocation = path.resolve(homedir(), ".npmrc");
 
     /**
-     * The user's .varc file path.
+     * The user's .verc file path.
      */
-    public static readonly ConfigFileLocation = path.resolve(homedir(), ".varc");
+    public static readonly ConfigFileLocation = path.resolve(homedir(), ".verc");
 
     /**
      * Application main entry point.
@@ -51,7 +51,7 @@ export class App {
             // If there's no config file
             if (!existsSync(App.ConfigFileLocation)) {
                 // Warn the user and exit
-                console.warn("varc isn't configured. Run `varc config` to setup.");
+                console.warn("verc isn't configured. Run `verc config` to setup.");
 
                 process.exit(1);
             }
