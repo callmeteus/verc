@@ -1,5 +1,5 @@
 # verc
-Varc allows you to automatically update your global .npmrc file with multiple registries.
+Verc allows you to automatically update your global .npmrc file with multiple registries.
 
 ## Usage
 You can install verc globally and use it as a command line.
