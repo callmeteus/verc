@@ -1,7 +1,7 @@
 {
   "name": "verc",
   "description": "Verdaccio automatic .rc file",
-  "version": "1.0.100000003",
+  "version": "1.0.100000004",
   "main": "dist/index.js",
   "license": "MIT",
   "author": "Gio <gio@techtail.net>",
