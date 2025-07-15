@@ -1,7 +1,7 @@
-import * as path from "path";
-import { homedir } from "os";
-import { Commands } from "./Command";
 import { existsSync, readFileSync, writeFileSync } from "fs";
+import { homedir } from "os";
+import * as path from "path";
+import { Commands } from "./Command";
 
 const FILE_HEADER = "# BEGIN VERDACCIO AUTO RC\n";
 const FILE_FOOTER = "\n# END VERDACCIO AUTO RC";
@@ -10,12 +10,12 @@ export class App {
     /**
      * The user's .npmrc file path.
      */
-    public static readonly NPMRCLocation = path.resolve(homedir(), ".npmrc");
+    public static readonly NPM_RC_PATH = path.resolve(homedir(), ".npmrc");
 
     /**
      * The user's .verc file path.
      */
-    public static readonly ConfigFileLocation = path.resolve(homedir(), ".verc");
+    public static readonly CONFIG_FILE_PATH = path.resolve(homedir(), ".verc");
 
     /**
      * Application main entry point.
@@ -35,13 +35,13 @@ export class App {
             let config = {};
 
             // If there's no config file
-            if (existsSync(App.ConfigFileLocation)) {
-                config = require(App.ConfigFileLocation);
+            if (existsSync(App.CONFIG_FILE_PATH)) {
+                config = JSON.parse(readFileSync(App.CONFIG_FILE_PATH, "utf-8"));
             }
 
-            config[parsed.option] = parsed.value;
+            config[parsed.option as string] = parsed.value;
 
-            writeFileSync(App.ConfigFileLocation, JSON.stringify(config));
+            writeFileSync(App.CONFIG_FILE_PATH, JSON.stringify(config));
 
             console.info("Configuration file updated.");
             return;
@@ -49,7 +49,7 @@ export class App {
         // If it's the update command
         if (cmd === "update") {
             // If there's no config file
-            if (!existsSync(App.ConfigFileLocation)) {
+            if (!existsSync(App.CONFIG_FILE_PATH)) {
                 // Warn the user and exit
                 console.warn("verc isn't configured. Run `verc config` to setup.");
 
@@ -65,13 +65,13 @@ export class App {
     /**
      * The program configuration.
      */
-    public config = JSON.parse(readFileSync(App.ConfigFileLocation, "utf-8"));
+    public config = JSON.parse(readFileSync(App.CONFIG_FILE_PATH, "utf-8"));
 
     /**
      * Initializes the application.
      */
     public async init() {
-        console.info(".npmrc location is %s", App.NPMRCLocation);
+        console.info(".npmrc location is %s", App.NPM_RC_PATH);
         console.info("Verdaccio URL is %s", this.config.url);
 
         await this.updatePackageList();
@@ -101,12 +101,12 @@ export class App {
         }    
 
         // Create the .npmrc file if it doesn't exists yet
-        if (!existsSync(App.NPMRCLocation)) {
-            writeFileSync(App.NPMRCLocation, "");
+        if (!existsSync(App.NPM_RC_PATH)) {
+            writeFileSync(App.NPM_RC_PATH, "");
         }
 
         // Read the npmrc contents
-        let contents = readFileSync(App.NPMRCLocation, "utf-8");
+        let contents = readFileSync(App.NPM_RC_PATH, "utf-8");
 
         // Generate the new rules contents
         const newRulesContents = [...finalRules].join("\n");
@@ -132,7 +132,7 @@ export class App {
         }
 
         // Write the file
-        writeFileSync(App.NPMRCLocation, contents);
+        writeFileSync(App.NPM_RC_PATH, contents);
 
         console.info("Package list was updated");
     }
